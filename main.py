@@ -73,3 +73,23 @@ def select_hercules_attack(attack_names_dictionary):
         selected_hercules_attack = "attack_3"
         selected_hercules_attack_power = attack_names_dictionary[selected_hercules_attack]
         return selected_hercules_attack, selected_hercules_attack_power
+
+
+rand_enemy_list = []
+
+
+def rand_enemy():
+    # random generate an enemy from enemy list
+    # ensure the random generated enemy only occurred once
+    has_enemy_occured = True
+    while has_enemy_occured:
+        rand_enemy_index = utility_rand_list_item(enemies_list)
+        rand_enemy = enemies_list[rand_enemy_index]
+
+        if rand_enemy in rand_enemy_list:
+            has_enemy_occured = True
+        else:
+            rand_enemy_list.append(rand_enemy)
+            rand_enemy = rand_enemy
+            has_enemy_occured = False
+    return rand_enemy
