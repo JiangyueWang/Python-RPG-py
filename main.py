@@ -132,3 +132,24 @@ generated_enemy_rand_attack_power = rand_enemy_attack_info(
 print(f'enemy {generated_enemy["enemy_name"]} has selected')
 print(
     f'enemy attack name {generated_enemy_attack_name} has choosen with attack power {generated_enemy_rand_attack_power}')
+
+
+counter = 1
+while True:
+    print(f'----------round {counter} attack starts----------')
+    hercules_health = hercules_dictionary["health"] - \
+        generated_enemy_rand_attack_power
+    generated_enemy_health = generated_enemy["health"] - \
+        user_selected_hercules_attack_power
+    print(f'hercules health {hercules_health}')
+    print(f'enemy health {generated_enemy_health}')
+    break
+
+
+# def attack():
+#     is_game_on = True
+#     while is_game_on:
+#         if hercules_health == 0 or generated_enemy_health == 0:
+#             is_game_on = False
+#         else:
+#             continue
