@@ -93,3 +93,42 @@ def rand_enemy():
             rand_enemy = rand_enemy
             has_enemy_occured = False
     return rand_enemy
+
+
+print("----------choosing attack for hercules----------")
+user_selected_hercules_attack = select_hercules_attack(
+    hercules_dictionary["attack_names_dictionary"])
+user_selected_hercules_attack_power = user_selected_hercules_attack[1]
+print(
+    f'you have selected attack {user_selected_hercules_attack[0]} for hercules with attack power {user_selected_hercules_attack_power} ')
+print("---------------------------------------------------")
+
+
+print("----------generating enemy----------")
+generated_enemy = rand_enemy()
+
+print("----------generating enemy attack----------")
+generated_enemy_attack_list = []
+for i in generated_enemy["attack_names_dictionary"].keys():
+    if i not in generated_enemy_attack_list:
+        generated_enemy_attack_list.append(i)
+
+
+def rand_enemy_attack_info(generated_enemy_attack_list):
+    # generated the attack name for the enemy randomly
+    rand_enemy_attack_index = utility_rand_list_item(
+        generated_enemy_attack_list)
+    rand_enemy_attack_name = generated_enemy_attack_list[rand_enemy_attack_index]
+    # find the attack power for random generated enemy
+    rand_enemy_rand_attack_power = generated_enemy["attack_names_dictionary"][rand_enemy_attack_name]
+    return rand_enemy_attack_name, rand_enemy_rand_attack_power
+
+
+generated_enemy_attack_name = rand_enemy_attack_info(
+    generated_enemy_attack_list)[0]
+generated_enemy_rand_attack_power = rand_enemy_attack_info(
+    generated_enemy_attack_list)[1]
+
+print(f'enemy {generated_enemy["enemy_name"]} has selected')
+print(
+    f'enemy attack name {generated_enemy_attack_name} has choosen with attack power {generated_enemy_rand_attack_power}')
