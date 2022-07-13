@@ -1,3 +1,4 @@
+from pickle import TRUE
 import random
 
 
@@ -12,7 +13,6 @@ hercules_dictionary = {
         "attack_1": 10,
         "attack_2": 20,
         "attack_3": 35,
-
     }
 }
 
@@ -57,6 +57,7 @@ def utility_rand_list_item(list_input):
 
 def select_hercules_attack(attack_names_dictionary):
     # asked user to select an attack for hercules
+    print("----------choosing attack for hercules----------")
     print(
         f'here are the attackes your choose for hercules {attack_names_dictionary}')
     user_choose_attack = input(
@@ -95,26 +96,21 @@ def rand_enemy():
     return rand_enemy
 
 
-print("----------choosing attack for hercules----------")
-user_selected_hercules_attack = select_hercules_attack(
-    hercules_dictionary["attack_names_dictionary"])
-user_selected_hercules_attack_power = user_selected_hercules_attack[1]
-print(
-    f'you have selected attack {user_selected_hercules_attack[0]} for hercules with attack power {user_selected_hercules_attack_power} ')
-print("---------------------------------------------------")
+# def user_select_hercules_attck(hercules_dictionary):
+#     print("----------choosing attack for hercules----------")
+#     selected_hercules_attack = select_hercules_attack(
+#         hercules_dictionary["attack_names_dictionary"])
+#     selected_hercules_attack_power = selected_hercules_attack[1]
+#     print("---------------------------------------------------")
+#     return selected_hercules_attack[0], selected_hercules_attack_power
 
+def rand_enemy_attack_info(generated_rand_enemy):
+    # save keys of the attack_names_dictionary of the generated enemy into generated_enemy_attack_list
+    generated_enemy_attack_list = []
+    for i in generated_rand_enemy["attack_names_dictionary"].keys():
+        if i not in generated_enemy_attack_list:
+            generated_enemy_attack_list.append(i)
 
-print("----------generating enemy----------")
-generated_enemy = rand_enemy()
-
-print("----------generating enemy attack----------")
-generated_enemy_attack_list = []
-for i in generated_enemy["attack_names_dictionary"].keys():
-    if i not in generated_enemy_attack_list:
-        generated_enemy_attack_list.append(i)
-
-
-def rand_enemy_attack_info(generated_enemy_attack_list):
     # generated the attack name for the enemy randomly
     rand_enemy_attack_index = utility_rand_list_item(
         generated_enemy_attack_list)
@@ -124,27 +120,59 @@ def rand_enemy_attack_info(generated_enemy_attack_list):
     return rand_enemy_attack_name, rand_enemy_rand_attack_power
 
 
-generated_enemy_attack_name = rand_enemy_attack_info(
-    generated_enemy_attack_list)[0]
-generated_enemy_rand_attack_power = rand_enemy_attack_info(
-    generated_enemy_attack_list)[1]
+is_game_on = True
+while is_game_on:
+    user_select_hercules_attack = select_hercules_attack(
+        hercules_dictionary["attack_names_dictionary"])[0]
+    user_selected_hercules_attack_power = hercules_dictionary[
+        "attack_names_dictionary"][user_select_hercules_attack]
+    print(
+        f'you have selected attack {user_select_hercules_attack } for hercules with attack power {user_selected_hercules_attack_power} ')
 
-print(f'enemy {generated_enemy["enemy_name"]} has selected')
-print(
-    f'enemy attack name {generated_enemy_attack_name} has choosen with attack power {generated_enemy_rand_attack_power}')
+    print("----------generating enemy----------")
+    generated_enemy = rand_enemy()
+    generated_enemy_attack_name = rand_enemy_attack_info(generated_enemy)[0]
+    generated_enemy_rand_attack_power = rand_enemy_attack_info(generated_enemy)[
+        1]
+    print(
+        f'enemy {generated_enemy["enemy_name"]} has selected with health {generated_enemy["health"]}')
+    print(
+        f'enemy attack name {generated_enemy_attack_name} has choosen with attack power {generated_enemy_rand_attack_power}')
 
-
-counter = 1
-while True:
-    print(f'----------round {counter} attack starts----------')
-    hercules_health = hercules_dictionary["health"] - \
-        generated_enemy_rand_attack_power
-    generated_enemy_health = generated_enemy["health"] - \
-        user_selected_hercules_attack_power
+    hercules_health = hercules_dictionary["health"]
+    generated_enemy_health = generated_enemy["health"]
     print(f'hercules health {hercules_health}')
     print(f'enemy health {generated_enemy_health}')
-    break
+    counter = 1
+    print(f'round {counter} starts---------------------------------------------')
 
+    while True:
+        hercules_health = hercules_health - generated_enemy_rand_attack_power
+        generated_enemy_health = generated_enemy_health - \
+            user_selected_hercules_attack_power
+        print(
+            f'after round {counter} hercules_healt {hercules_health} enemy health {generated_enemy_health}')
+
+        if hercules_health == 0 or generated_enemy_health == 0:
+            print("game over")
+            is_game_on = False
+            break
+        else:
+            counter = counter + 1
+            print(
+                f'round {counter} starts---------------------------------------------')
+            user_select_hercules_attack = select_hercules_attack(
+                hercules_dictionary["attack_names_dictionary"])[0]
+            user_selected_hercules_attack_power = hercules_dictionary[
+                "attack_names_dictionary"][user_select_hercules_attack]
+            print(
+                f'you have selected attack {user_select_hercules_attack } for hercules with attack power {user_selected_hercules_attack_power} ')
+            generated_enemy_attack_name = rand_enemy_attack_info(generated_enemy)[
+                0]
+            generated_enemy_rand_attack_power = rand_enemy_attack_info(generated_enemy)[
+                1]
+            print(
+                f'enemy attack name {generated_enemy_attack_name} has choosen with attack power {generated_enemy_rand_attack_power}')
 
 # def attack():
 #     is_game_on = True
